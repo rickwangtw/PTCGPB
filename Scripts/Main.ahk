@@ -23,7 +23,6 @@ CoordMode, Pixel, Screen
 #Include CardDetection.ahk
 #Include AccountManager.ahk
 #Include FriendManager.ahk
-#Include Dictionary.ahk
 
 #Include Coords.ahk
 #Include Error.ahk
@@ -141,6 +140,7 @@ if(botConfig.get("heartBeat"))
     IniWrite, 1, %A_ScriptDir%\..\HeartBeat.ini, HeartBeat, Main
 FindImageAndClick("Common_ActivatedSocialInMainMenu", 143, 518, , 1000, 150)
 
+/*
 global 99Configs := {}
 99Configs["en"] := {leftx: 123, rightx: 162}
 99Configs["es"] := {leftx: 68, rightx: 107}
@@ -155,7 +155,7 @@ global 99Configs := {}
 99Path := "99" . botConfig.get("clientLanguage")
 99Leftx := 99Configs[botConfig.get("clientLanguage")].leftx
 99Rightx := 99Configs[botConfig.get("clientLanguage")].rightx
-
+*/
 Loop {
     if (session.get("autoUseGPTest") && botConfig.get("groupRerollEnabled")) {
         session.set("autotest_time", (A_TickCount - session.get("autotest")) // 1000)
@@ -203,10 +203,34 @@ Loop {
                 Delay(1)
                 clickButton := FindOrLoseImage("Common_ColorChangeButton", 0, failSafeTime, 80)
                 requestAlreadyClosed := FindOrLoseImage("Friend_RequestAlreadyClosedInApproveSubmenu", 0, failSafeTime)
-                if(FindOrLoseImage(99Path, 0, failSafeTime)) {
+                if(FindOrLoseImage("Friend_FriendList99", 0, failSafeTime)) {
                     done := true
                     break
-                } else if(FindOrLoseImage("Common_Error", 0, failSafeTime)) {
+                }
+                else if(FindOrLoseImage("Friend_AcceptButtonInApproveSubmenu", 0, failSafeTime)) {
+                    if (session.get("GPTest"))
+                        break
+                    Loop{
+                        if FindOrLoseImage("Friend_StuckMessageBackground", 0, failSafeTime){
+                            Delay(2)
+                        }else{
+                            adbClick(237, 202)
+                            Delay(1)
+                            if FindOrLoseImage("Friend_StuckMessageBackground", 0, failSafeTime){
+                                Loop{
+                                    if FindOrLoseImage("Friend_StuckMessageBackground", 1, failSafeTime){
+                                        break
+                                    }else{
+                                        Delay(1)
+                                    }
+                                }
+                                FindImageAndClick("Friend_StuckMessageBackground", 202, 202, , 1000)
+                            }
+                            break
+                        }
+                    }
+                }
+                else if(FindOrLoseImage("Common_Error", 0, failSafeTime)) {
                     ; Handle communication error
                     CreateStatusMessage("Error message detected. Clicking retry...",,,, false)
                     LogToFile("Error message in Main " . session.get("scriptName") . ". Clicking retry...")
@@ -567,8 +591,7 @@ StopScript:
         CreateStatusMessage("Stopping script...",,,, false)
         ExitApp
     }
-    settingsPath := A_ScriptDir . "\..\Settings.ini"
-    IniRead, savedStopPreferenceMain, %settingsPath%, UserSettings, stopPreferenceMain, none
+    savedStopPreferenceMain := botConfig.get("savedStopPreferenceMain")
     if (savedStopPreferenceMain = "immediate") {
         CreateStatusMessage("Stopping script...",,,, false)
         ExitApp
@@ -580,17 +603,19 @@ StopScript:
         Gui, StopMain:Add, Text, x20 y15 w220 Center, What would you like to do?
         Gui, StopMain:Add, Button, x20 y45 w220 h30 gStopMainImmediately, Stop Immediately
         Gui, StopMain:Add, Button, x20 y80 w220 h30 gStopMainAfterGPTestButton, Run GP Test then Stop
-        Gui, StopMain:Add, Checkbox, x20 y120 w220 vui_RememberStopPreferenceMain, Remember my choice
+        Gui, StopMain:Add, Checkbox, x20 y120 w220 hwndhRememberStopPreferenceMain, Remember my choice
         Gui, StopMain:Show, w260 h150, Stop Main Instance
+
+        session.set("RememberStopPreferenceMainHwnd", hRememberStopPreferenceMain)
     }
 return
 
 StopMainImmediately:
-    Gui, StopMain:Submit, NoHide
-    GuiControlGet, RememberStopPreferenceMain, , ui_RememberStopPreferenceMain
+    targetHwnd := session.get("RememberStopPreferenceMainHwnd")    
+    GuiControlGet, RememberStopPreferenceMain, , %targetHwnd%
     if (RememberStopPreferenceMain) {
-        settingsPath := A_ScriptDir . "\..\Settings.ini"
-        IniWrite, immediate, %settingsPath%, UserSettings, stopPreferenceMain
+        botConfig.set("stopPreferenceMain", "immediate", "Extra")
+        botConfig.saveConfigToSettings("Extra")
     }
     Gui, StopMain:Destroy
     CreateStatusMessage("Stopping script...",,,, false)
@@ -598,12 +623,13 @@ StopMainImmediately:
 return
 
 StopMainAfterGPTestButton:
+    targetHwnd := session.get("RememberStopPreferenceMainHwnd")    
+    GuiControlGet, RememberStopPreferenceMain, , %targetHwnd%
     Gui, StopMain:Submit, NoHide
     Gui, StopMain:Destroy
-    GuiControlGet, RememberStopPreferenceMain, , ui_RememberStopPreferenceMain
     if (RememberStopPreferenceMain) {
-        settingsPath := A_ScriptDir . "\..\Settings.ini"
-        IniWrite, gp_test, %settingsPath%, UserSettings, stopPreferenceMain
+        botConfig.set("stopPreferenceMain", "gp_test", "Extra")
+        botConfig.saveConfigToSettings("Extra")
     }
 
 StopMainAfterGPTest:
