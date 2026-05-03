@@ -22,9 +22,9 @@ Pack:Springs|A|1|Col-Second|298|0
 Pack:Deluxe|A|1|Col-First|298|0
 
 # B Series
-Pack:MegaGyarados|B|3|Col-Second-Left|405|2
-Pack:MegaBlaziken|B|3|Col-Second-Middle|405|2
-Pack:MegaAltaria|B|3|Col-Second-Right|405|2
+Pack:MegaGyarados|B|3|Col-Second-Left|405|1
+Pack:MegaBlaziken|B|3|Col-Second-Middle|405|1
+Pack:MegaAltaria|B|3|Col-Second-Right|405|1
 Pack:CrimsonBlaze|B|1|Col-First|434|2
 Pack:Parade|B|1|Col-Second|434|0
 Pack:PaldeanWonders|B|1|Col-First|434|0

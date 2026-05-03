@@ -133,9 +133,21 @@ loadAccount() {
         session.set("accountFileNameOrig", session.get("accountFileName"))
     }
 
+    session.set("deviceAccount", GetDeviceAccountFromXML())
+    currentAccountInfo .= "Account: " . session.get("accountFileName") . "`nDeviceAccount: " . session.get("deviceAccount")
+    CreateStatusMessage(currentAccountInfo, "AccountInfo", 0, 46, false)
+    SetTimer, DestoryAccountInfoUI, -15000
     getMetaData()
 
     return loadFile
+}
+
+DestoryAccountInfoUI(){
+    SetTimer, DestoryAccountInfoUI, Off
+    guiName := "AccountInfo" . session.get("scriptName")
+    Gui, %guiName%:+LastFoundExist
+    if WinExist()
+        Gui, %guiName%:Destroy
 }
 
 ;-------------------------------------------------------------------------------

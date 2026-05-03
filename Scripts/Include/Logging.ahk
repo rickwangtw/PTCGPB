@@ -38,10 +38,15 @@ CreateStatusMessage(Message, GuiName := "StatusMessage", X := 0, Y := 565, debug
     if (Debug && Message != DEFAULT_STATUS_MESSAGE)
         LogToFile(GuiName . ": " . Message)
 
-	if(GuiName = "AvgRuns" || GuiName = "AutoGPTest")
+    guiWidth := 275
+    guiheight := 40
+	if(GuiName = "AvgRuns" || GuiName = "AutoGPTest" || GuiName = "AccountInfo")
 		guiheight := 30
-	else
-		guiheight := 40
+
+    if(GuiName = "AccountInfo"){
+        guiWidth := 260
+        guiheight := 25
+    }
 		
     try {
 
@@ -69,12 +74,12 @@ CreateStatusMessage(Message, GuiName := "StatusMessage", X := 0, Y := 565, debug
                 DllCall("SetWindowPos", "Ptr", WinExist(), "Ptr", 1  ; HWND_BOTTOM
                     , "Int", 0, "Int", 0, "Int", 0, "Int", 0, "UInt", 0x13)  ; SWP_NOSIZE, SWP_NOMOVE, SWP_NOACTIVATE
 
-                Gui, %GuiName%:Show, NoActivate x%X% y%Y% w275 h%guiheight%
+                Gui, %GuiName%:Show, NoActivate x%X% y%Y% w%guiWidth% h%guiheight%
             }
             SetTimer, % timerReposition, 2000
         }
         SetTextAndResize(hwnds[GuiName], Message)
-        Gui, %GuiName%:Show, NoActivate  w275 h%guiheight%
+        Gui, %GuiName%:Show, NoActivate  w%guiWidth% h%guiheight%
 
         ; Clear any previous timers.
         SetTimer, % resetStatusFunc, Off

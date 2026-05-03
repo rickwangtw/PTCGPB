@@ -42,8 +42,8 @@ OnError("ErrorHandler")
 
 githubUser := "kevnITG"
    ,repoName := "PTCGPB"
-   ,localVersion := "v9.6.3"
-   ,modVersion := "v5.5"
+   ,localVersion := "v9.6.4"
+   ,modVersion := "v5.6"
    ,scriptFolder := A_ScriptDir
    ,zipPath := A_Temp . "\update.zip"
    ,extractPath := A_Temp . "\update"
@@ -82,6 +82,7 @@ botConfig.loadSettingsToConfig("ALL")
 SetTimer, ShowSwipeSpeedToolTip, 50
 
 hasInvalidScale := false
+
 monitorScaleList := GetAllMonitorScales()
 For idx, scaleValue in monitorScaleList {
     if(scaleValue != 100){
@@ -311,7 +312,7 @@ NextStep:
     Gui, Font, s12 cWhite Bold
     Gui, Add, Text, x621 y20 w155 h50 Left BackgroundTrans cWhite, % dict["title_main"]
     Gui, Font, s10 cWhite Bold
-    Gui, Add, Text, x621 y20 w155 h150 Left BackgroundTrans cWhite, % "`n" "`n(for Scale 100%)`n`nModder: Crinity " modVersion 
+    Gui, Add, Text, x621 y20 w155 h150 Left BackgroundTrans cWhite, % "`n" localVersion "`n(for Scale 100%)`n`nModder: Crinity " modVersion 
 
     Gui, Add, Picture, gBuyMeCoffee x625 y130 w150, %A_ScriptDir%\GUI\Images\support_me_on_kofi.png
 
@@ -487,7 +488,7 @@ ShowPackSelection:
     Gui, PackSelect:New, +ToolWindow -MaximizeBox -MinimizeBox +LastFound, Pack Selection
     Gui, PackSelect:Color, 1E1E1E, 333333
     Gui, PackSelect:Font, s10 cWhite, Segoe UI
-
+    
     windowWidth := 10
     seriesColumnSize := 170
     yInitSeries := 35
@@ -727,15 +728,15 @@ ApplyCardDetection:
 return
 
 saveCardDetection:
-    botConfig.set("minStars", (ui_minStars_Popup == "" ? botConfig.get("minStars") : ui_minStars_Popup), "Wonderpick")
-    botConfig.set("FullArtCheck", (ui_FullArtCheck_Popup == "" ? botConfig.get("FullArtCheck") : ui_FullArtCheck_Popup), "Wonderpick")
-    botConfig.set("TrainerCheck", (ui_TrainerCheck_Popup == "" ? botConfig.get("TrainerCheck") : ui_TrainerCheck_Popup), "Wonderpick")
-    botConfig.set("RainbowCheck", (ui_RainbowCheck_Popup == "" ? botConfig.get("RainbowCheck") : ui_RainbowCheck_Popup), "Wonderpick")
-    botConfig.set("PseudoGodPack", (ui_PseudoGodPack_Popup == "" ? botConfig.get("PseudoGodPack") : ui_PseudoGodPack_Popup), "Wonderpick")
-    botConfig.set("InvalidCheck", (ui_InvalidCheck_Popup == "" ? botConfig.get("InvalidCheck") : ui_InvalidCheck_Popup), "Wonderpick")
-    botConfig.set("discordUserId", (ui_discordUserId_Popup == "" ? botConfig.get("discordUserId") : ui_discordUserId_Popup), "Wonderpick")
-    botConfig.set("discordWebhookURL", (ui_discordWebhookURL_Popup == "" ? botConfig.get("discordWebhookURL") : ui_discordWebhookURL_Popup), "Wonderpick")
-    botConfig.set("sendAccountXml", (ui_sendAccountXml_Popup == "" ? botConfig.get("sendAccountXml") : ui_sendAccountXml_Popup), "Wonderpick")
+    botConfig.set("minStars", ui_minStars_Popup, "Wonderpick")
+    botConfig.set("FullArtCheck", ui_FullArtCheck_Popup, "Wonderpick")
+    botConfig.set("TrainerCheck", ui_TrainerCheck_Popup, "Wonderpick")
+    botConfig.set("RainbowCheck", ui_RainbowCheck_Popup, "Wonderpick")
+    botConfig.set("PseudoGodPack", ui_PseudoGodPack_Popup, "Wonderpick")
+    botConfig.set("InvalidCheck", ui_InvalidCheck_Popup, "Wonderpick")
+    botConfig.set("discordUserId", ui_discordUserId_Popup, "Wonderpick")
+    botConfig.set("discordWebhookURL", ui_discordWebhookURL_Popup, "Wonderpick")
+    botConfig.set("sendAccountXml", ui_sendAccountXml_Popup, "Wonderpick")
 return
 
 CancelCardDetection:
@@ -872,12 +873,12 @@ ApplyGroupRerollSettings:
 return
 
 saveGroupReroll:
-    botConfig.set("groupRerollEnabled", (ui_groupRerollEnabled_Popup == "" ? botConfig.get("groupRerollEnabled") : ui_groupRerollEnabled_Popup), "GroupReroll")
+    botConfig.set("groupRerollEnabled", ui_groupRerollEnabled_Popup, "GroupReroll")
     botConfig.set("mainIdsURL", ui_mainIdsURL_Popup, "GroupReroll")
     botConfig.set("vipIdsURL", ui_vipIdsURL_Popup, "GroupReroll")
-    botConfig.set("autoUseGPTest", (ui_autoUseGPTest_Popup == "" ? botConfig.get("autoUseGPTest") : ui_autoUseGPTest_Popup), "GroupReroll")
-    botConfig.set("TestTime", (ui_TestTime_Popup == "" ? botConfig.get("TestTime") : ui_TestTime_Popup), "GroupReroll")
-    botConfig.set("gpTestWaitTime", (ui_gpTestWaitTime_Popup == "" ? botConfig.get("gpTestWaitTime") : ui_gpTestWaitTime_Popup), "GroupReroll")
+    botConfig.set("autoUseGPTest", ui_autoUseGPTest_Popup, "GroupReroll")
+    botConfig.set("TestTime", ui_TestTime_Popup, "GroupReroll")
+    botConfig.set("gpTestWaitTime", ui_gpTestWaitTime_Popup, "GroupReroll")
 
     if (ui_gpTestWaitTime_Popup = "" || (ui_gpTestWaitTime_Popup + 0) <= 0)
         botConfig.set("gpTestWaitTime", 150, "GroupReroll")
@@ -891,7 +892,7 @@ saveGroupReroll:
         MsgBox, 48, % dict["Msg_UnopenedPackTitle"], %confirmUP%
     }
     botConfig.set("hasUnopenedPack", newUnopened, "GroupReroll")
-    botConfig.set("applyRoleFilters", (ui_applyRoleFilters_Popup == "" ? botConfig.get("applyRoleFilters") : ui_applyRoleFilters_Popup), "GroupReroll")
+    botConfig.set("applyRoleFilters", ui_applyRoleFilters_Popup, "GroupReroll")
 return
 
 CancelGroupRerollSettings:
@@ -1038,25 +1039,25 @@ ApplyS4TSettings:
 return
 
 saveS4T:
-    botConfig.set("s4tEnabled", (ui_s4tEnabled_Popup == "" ? botConfig.get("s4tEnabled") : ui_s4tEnabled_Popup), "SaveForTrade")
+    botConfig.set("s4tEnabled", ui_s4tEnabled_Popup, "SaveForTrade")
     botConfig.set("s4tSilent", 0, "SaveForTrade")
     botConfig.set("s4tGholdengo", 0, "SaveForTrade")
-    botConfig.set("s4t1Star", (ui_s4t1Star_Popup == "" ? botConfig.get("s4t1Star") : ui_s4t1Star_Popup), "SaveForTrade")
-    botConfig.set("s4t4Dmnd", (ui_s4t4Dmnd_Popup == "" ? botConfig.get("s4t4Dmnd") : ui_s4t4Dmnd_Popup), "SaveForTrade")
-    botConfig.set("s4t3Dmnd", (ui_s4t3Dmnd_Popup == "" ? botConfig.get("s4t3Dmnd") : ui_s4t3Dmnd_Popup), "SaveForTrade")
-    botConfig.set("s4tTrainer", (ui_s4tTrainer_Popup == "" ? botConfig.get("s4tTrainer") : ui_s4tTrainer_Popup), "SaveForTrade")
-    botConfig.set("s4tRainbow", (ui_s4tRainbow_Popup == "" ? botConfig.get("s4tRainbow") : ui_s4tRainbow_Popup), "SaveForTrade")
-    botConfig.set("s4tFullArt", (ui_s4tFullArt_Popup == "" ? botConfig.get("s4tFullArt") : ui_s4tFullArt_Popup), "SaveForTrade")
-    botConfig.set("s4tCrown", (ui_s4tCrown_Popup == "" ? botConfig.get("s4tCrown") : ui_s4tCrown_Popup), "SaveForTrade")
-    botConfig.set("s4tImmersive", (ui_s4tImmersive_Popup == "" ? botConfig.get("s4tImmersive") : ui_s4tImmersive_Popup), "SaveForTrade")
-    botConfig.set("s4tShiny1Star", (ui_s4tShiny1Star_Popup == "" ? botConfig.get("s4tShiny1Star") : ui_s4tShiny1Star_Popup), "SaveForTrade")
-    botConfig.set("s4tShiny2Star", (ui_s4tShiny2Star_Popup == "" ? botConfig.get("s4tShiny2Star") : ui_s4tShiny2Star_Popup), "SaveForTrade")
-    botConfig.set("s4tWP", (ui_s4tWP_Popup == "" ? botConfig.get("s4tWP") : ui_s4tWP_Popup), "SaveForTrade")
-    botConfig.set("s4tWPMinCards", (ui_s4tWPMinCards_Popup == "" ? botConfig.get("s4tWPMinCards") : ui_s4tWPMinCards_Popup), "SaveForTrade")
-    botConfig.set("s4tDiscordUserId", (ui_s4tDiscordUserId_Popup == "" ? botConfig.get("s4tDiscordUserId") : ui_s4tDiscordUserId_Popup), "SaveForTrade")
-    botConfig.set("s4tDiscordWebhookURL", (ui_s4tDiscordWebhookURL_Popup == "" ? botConfig.get("s4tDiscordWebhookURL") : ui_s4tDiscordWebhookURL_Popup), "SaveForTrade")
-    botConfig.set("s4tSendAccountXml", (ui_s4tSendAccountXml_Popup == "" ? botConfig.get("s4tSendAccountXml") : ui_s4tSendAccountXml_Popup), "SaveForTrade")
-    botConfig.set("ocrShinedust", (ui_ocrShinedust_Popup == "" ? botConfig.get("ocrShinedust") : ui_ocrShinedust_Popup), "SaveForTrade")
+    botConfig.set("s4t1Star", ui_s4t1Star_Popup, "SaveForTrade")
+    botConfig.set("s4t4Dmnd", ui_s4t4Dmnd_Popup, "SaveForTrade")
+    botConfig.set("s4t3Dmnd", ui_s4t3Dmnd_Popup, "SaveForTrade")
+    botConfig.set("s4tTrainer", ui_s4tTrainer_Popup, "SaveForTrade")
+    botConfig.set("s4tRainbow", ui_s4tRainbow_Popup, "SaveForTrade")
+    botConfig.set("s4tFullArt", ui_s4tFullArt_Popup, "SaveForTrade")
+    botConfig.set("s4tCrown", ui_s4tCrown_Popup, "SaveForTrade")
+    botConfig.set("s4tImmersive", ui_s4tImmersive_Popup, "SaveForTrade")
+    botConfig.set("s4tShiny1Star", ui_s4tShiny1Star_Popup, "SaveForTrade")
+    botConfig.set("s4tShiny2Star", ui_s4tShiny2Star_Popup, "SaveForTrade")
+    botConfig.set("s4tWP", ui_s4tWP_Popup, "SaveForTrade")
+    botConfig.set("s4tWPMinCards", ui_s4tWPMinCards_Popup, "SaveForTrade")
+    botConfig.set("s4tDiscordUserId", ui_s4tDiscordUserId_Popup, "SaveForTrade")
+    botConfig.set("s4tDiscordWebhookURL", ui_s4tDiscordWebhookURL_Popup, "SaveForTrade")
+    botConfig.set("s4tSendAccountXml", ui_s4tSendAccountXml_Popup, "SaveForTrade")
+    botConfig.set("ocrShinedust", ui_ocrShinedust_Popup, "SaveForTrade")
 
     if (ui_s4tWPMinCards_Popup < 1)
         botConfig.set("s4tWPMinCards", 1, "SaveForTrade")
@@ -1213,22 +1214,22 @@ ApplyToolsAndSystemSettings:
 return
 
 saveToolsAndSystemSettings:
-    botConfig.set("showcaseEnabled", (ui_showcaseEnabled_Popup == "" ? botConfig.get("showcaseEnabled") : ui_showcaseEnabled_Popup), "ToolsAndSystem")
-    botConfig.set("claimDailyMission", (ui_claimDailyMission_Popup == "" ? botConfig.get("claimDailyMission") : ui_claimDailyMission_Popup), "ToolsAndSystem")
-    botConfig.set("slowMotion", (ui_slowMotion_Popup == "" ? botConfig.get("slowMotion") : ui_slowMotion_Popup), "ToolsAndSystem")
-    botConfig.set("useSoloIdsFile", (ui_UseSoloIdsFile_Popup == "" ? botConfig.get("useSoloIdsFile") : ui_UseSoloIdsFile_Popup), "ToolsAndSystem")
-    botConfig.set("claimSpecialMissions", (ui_claimSpecialMissions_Popup == "" ? botConfig.get("claimSpecialMissions") : ui_claimSpecialMissions_Popup), "ToolsAndSystem")
-    botConfig.set("wonderpickForEventMissions", (ui_wonderpickForEventMissions_Popup == "" ? botConfig.get("wonderpickForEventMissions") : ui_wonderpickForEventMissions_Popup), "ToolsAndSystem")
+    botConfig.set("showcaseEnabled", ui_showcaseEnabled_Popup, "ToolsAndSystem")
+    botConfig.set("claimDailyMission", ui_claimDailyMission_Popup, "ToolsAndSystem")
+    botConfig.set("slowMotion", ui_slowMotion_Popup, "ToolsAndSystem")
+    botConfig.set("useSoloIdsFile", ui_UseSoloIdsFile_Popup, "ToolsAndSystem")
+    botConfig.set("claimSpecialMissions", ui_claimSpecialMissions_Popup, "ToolsAndSystem")
+    botConfig.set("wonderpickForEventMissions", ui_wonderpickForEventMissions_Popup, "ToolsAndSystem")
     
-    botConfig.set("SelectedMonitorIndex", (ui_SelectedMonitorIndex_Popup == "" ? botConfig.get("SelectedMonitorIndex") : ui_SelectedMonitorIndex_Popup), "ToolsAndSystem")
-    botConfig.set("RowGap", (ui_RowGap_Popup == "" ? botConfig.get("RowGap") : ui_RowGap_Popup), "ToolsAndSystem")
-    botConfig.set("folderPath", (ui_folderPath_Popup == "" ? botConfig.get("folderPath") : ui_folderPath_Popup), "ToolsAndSystem")
-    botConfig.set("ocrLanguage", (ui_ocrLanguage_Popup == "" ? botConfig.get("ocrLanguage") : ui_ocrLanguage_Popup), "ToolsAndSystem")
-    botConfig.set("clientLanguage", (ui_clientLanguage_Popup == "" ? botConfig.get("clientLanguage") : ui_clientLanguage_Popup), "ToolsAndSystem")
-    botConfig.set("instanceLaunchDelay", (ui_instanceLaunchDelay_Popup == "" ? botConfig.get("instanceLaunchDelay") : ui_instanceLaunchDelay_Popup), "ToolsAndSystem")
-    botConfig.set("autoLaunchMonitor", (ui_autoLaunchMonitor_Popup == "" ? botConfig.get("autoLaunchMonitor") : ui_autoLaunchMonitor_Popup), "ToolsAndSystem")
-    botConfig.set("saveToGit", (ui_saveToGit_Popup == "" ? botConfig.get("saveToGit") : ui_saveToGit_Popup), "ToolsAndSystem")
-    botConfig.set("receiveGift", (ui_receiveGift_Popup == "" ? botConfig.get("receiveGift") : ui_receiveGift_Popup), "ToolsAndSystem")
+    botConfig.set("SelectedMonitorIndex", ui_SelectedMonitorIndex_Popup, "ToolsAndSystem")
+    botConfig.set("RowGap", ui_RowGap_Popup, "ToolsAndSystem")
+    botConfig.set("folderPath", ui_folderPath_Popup, "ToolsAndSystem")
+    botConfig.set("ocrLanguage", ui_ocrLanguage_Popup, "ToolsAndSystem")
+    botConfig.set("clientLanguage", ui_clientLanguage_Popup, "ToolsAndSystem")
+    botConfig.set("instanceLaunchDelay", ui_instanceLaunchDelay_Popup, "ToolsAndSystem")
+    botConfig.set("autoLaunchMonitor", ui_autoLaunchMonitor_Popup, "ToolsAndSystem")
+    botConfig.set("saveToGit", ui_saveToGit_Popup, "ToolsAndSystem")
+    botConfig.set("receiveGift", ui_receiveGift_Popup, "ToolsAndSystem")
     
     if(botConfig.get("SelectedMonitorIndex") = "")
         botConfig.set("SelectedMonitorIndex", "1:", "ToolsAndSystem")
@@ -1722,13 +1723,6 @@ SaveAllSettings() {
     botConfig.set("stopPreference", botConfig.get("stopPreference"), "Extra")
     botConfig.set("stopPreferenceSingle", botConfig.get("stopPreferenceSingle"), "Extra")
     botConfig.set("stopPreferenceMain", botConfig.get("stopPreferenceMain"), "Extra")
-
-    GoSub, savePackSelection
-    GoSub, saveCardDetection
-    GoSub, saveGroupReroll
-    GoSub, saveS4T
-    GoSub, saveSortOption
-    GoSub, saveToolsAndSystemSettings
 
     botConfig.saveConfigToSettings("ALL")
     

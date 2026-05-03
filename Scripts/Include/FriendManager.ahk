@@ -560,7 +560,7 @@ GoToFriendsList(isKeepSearch := false, skipTutorialProc := false) {
         else{
             ; For Tutorial Window
             if(!skipTutorialProc)
-                adbClick_wbb(170, 438)
+                adbClick_wbb(155, 425)
         }
         Delay(0.25)
         failSafeTime := (A_TickCount - session.get("failSafe")) // 1000

@@ -55,9 +55,9 @@
                       , "folderPath": "C:\Program Files\Netease"
                       , "RowGap": 105
                       , "debugMode": 0
-                      , "stopPreference": A_Space
-                      , "stopPreferenceSingle": A_Space
-                      , "stopPreferenceMain": A_Space
+                      , "stopPreference": ""
+                      , "stopPreferenceSingle": ""
+                      , "stopPreferenceMain": ""
                       , "ocrLanguage": "en"
                       , "waitAfterBulkLaunch": 40000}
 
@@ -80,6 +80,14 @@
         this.botConfigs["Extra"] := this.extraSettings
 
         this.botConfigs["UserSettings"] := this.legacySettings
+
+        this.initDefaultSettings()
+    }
+
+    initDefaultSettings(){
+        For settingID, settingValue in this.defaultValueMap {
+            this.set(settingID, settingValue)
+        }
     }
 
     get(configItemName){

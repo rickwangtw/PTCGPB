@@ -306,7 +306,7 @@ FoundStars(star) {
 ; GodPackFound - Process found god pack
 ;-------------------------------------------------------------------------------
 GodPackFound(validity) {
-    global botConfig, session, DeadCheck
+    global botConfig, session, DeadCheck, dictionaryData
 
     currentPackInfo := session.get("currentPackInfo")
     username := ""
@@ -376,7 +376,7 @@ GodPackFound(validity) {
         logMessage .= username
     if (friendCode && friendCode != "Unknown")
         logMessage .= " (" . friendCode . ")"
-    logMessage .= "\n[" . starCount . "/5][" . session.get("packsInPool") . "P][" . session.get("openPack") . "] "
+    logMessage .= "\n[" . starCount . "/5][" . session.get("packsInPool") . "P][" . dictionaryData[botConfig.get("defaultBotLanguage")][session.get("openPack")] . "] "
     logMessage .= invalid . " God Pack found in instance: " . session.get("scriptName") . "\nFile name: " . accountFile . "\nBacking up to the Accounts\\GodPacks folder and continuing..."
 
     LogToFile(StrReplace(logMessage, "\n", " "), "GPlog.txt")
@@ -392,7 +392,7 @@ GodPackFound(validity) {
 ; FoundTradeable - Process found tradeable cards
 ;-------------------------------------------------------------------------------
 FoundTradeable(found3Dmnd := 0, found4Dmnd := 0, found1Star := 0, foundGimmighoul := 0, foundCrown := 0, foundImmersive := 0, foundShiny1Star := 0, foundShiny2Star := 0, foundTrainer := 0, foundRainbow := 0, foundFullArt := 0) {
-    global botConfig, session
+    global botConfig, session, dictionaryData
     global screenShotFileName
 
     IniWrite, 0, % session.get("scriptIniFile"), UserSettings, DeadCheck
@@ -531,7 +531,7 @@ FoundTradeable(found3Dmnd := 0, found4Dmnd := 0, found1Star := 0, foundGimmighou
 
     CreateStatusMessage("Tradeable cards found! Logged to database and continuing...",,,, false)
 
-    logMessage := statusMessage . " in instance: " . session.get("scriptName") . " (" . session.get("packsInPool") . " packs, " . session.get("openPack") . ") Logged to Trades Database. Screenshot file: " . screenShotFileName
+    logMessage := statusMessage . " in instance: " . session.get("scriptName") . " (" . session.get("packsInPool") . " packs, " . dictionaryData[botConfig.get("defaultBotLanguage")][session.get("openPack")] . ") Logged to Trades Database. Screenshot file: " . screenShotFileName
     LogToFile(logMessage, "S4T.txt")
 
     if (!botConfig.get("s4tSilent") && botConfig.get("s4tDiscordWebhookURL")) {

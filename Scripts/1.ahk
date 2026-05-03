@@ -535,7 +535,7 @@ if(DeadCheck = 1 && botConfig.get("deleteMethod") != "Create Bots (13P)") {
 
             SelectPack("HGPack")
             PackOpening() ;8
-            if(session.get("cantOpenMorePacks")nMorePacks || (!session.get("friendIDs") && botConfig.get("FriendID") = "" && session.get("accountOpenPacks") >= session.get("maxAccountPackNum")))
+            if(session.get("cantOpenMorePacks") || (!session.get("friendIDs") && botConfig.get("FriendID") = "" && session.get("accountOpenPacks") >= session.get("maxAccountPackNum")))
                 Goto, EndOfRun
 
             HourglassOpening(true) ;9
@@ -653,7 +653,7 @@ if(DeadCheck = 1 && botConfig.get("deleteMethod") != "Create Bots (13P)") {
         CreateStatusMessage(generateStatusText(), "AvgRuns", 0, 605, false, true)
 
         ; Log to file
-        LogToFile("Packs: " . session.get("packsThisRun") . " | Total time: " . mminutes . "m " . sseconds . "s | Avg: " . aminutes . "m " . aseconds . "s | Runs: " . rerolls)
+        LogToFile("Packs: " . session.get("packsThisRun") . " | Total time: " . session.get("mminutes") . "m " . session.get("sseconds") . "s | Avg: " . session.get("aminutes") . "m " . session.get("aseconds") . "s | Runs: " . session.get("rerolls"))
 
         SendMetadataToPTCGPB(session.get("packsThisRun"))
 
@@ -1677,39 +1677,43 @@ Screenshot_dev(fileType := "Dev", subDir := "", srcPath := "") {
     sleep 100
 
     try {
+        CoordMode, Mouse, Client
         OwnerWND := WinExist(session.get("winTitle"))
         buttonWidth := 40
 
         guiSuffix := session.get("winTitle")
         Gui, DevMode_ss%guiSuffix%:New, +LastFound -DPIScale
-        Gui, DevMode_ss%guiSuffix%:Add, Picture, x0 y0 w275 h534, %filePath%
-        Gui, DevMode_ss%guiSuffix%:Show, w275 h534, % "Screensho" session.get("winTitle")
+        Gui, DevMode_ss%guiSuffix%:Add, Picture, x0 y0 w275 h528 hwndhAppScreen, %filePath%
+        Gui, DevMode_ss%guiSuffix%:Show, w275 h528, % "Screensho" session.get("winTitle")
+
+        GuiControlGet, PicPos, Pos, %hAppScreen%
 
         sleep 100
         msgbox click on top-left corner and bottom-right corners
-
-        yBias := 40
-
         KeyWait, LButton, D
         MouseGetPos , X1, Y1, OutputVarWin, OutputVarControl
         KeyWait, LButton, U
-        Y1 -= 31
-        Y1Image := Y1
+
+        X1 := X1 - PicPosX
+        Y1 := Y1 - PicPosY
 
         ; Return in case of user close the screen
-        if !WinExist("Screensho " session.get("scriptName"))
+        if !WinExist("Screensho" session.get("winTitle"))
             return
 
         KeyWait, LButton, D
         MouseGetPos , X2, Y2, OutputVarWin, OutputVarControl
         KeyWait, LButton, U
-        Y2 -= 31
-        Y2Image := Y2
+
+        X2 := X2 - PicPosX
+        Y2 := Y2 - PicPosY
 
         W:=X2-X1
         H:=Y2-Y1
 
-        pBitmap := Gdip_CloneBitmapArea(pBitmapW, X1, Y1Image, W, H)
+        MsgBox, % X1 ", " Y1 " / " X2 ", " Y2
+
+        pBitmap := Gdip_CloneBitmapArea(pBitmapW, X1, Y1, W, H)
 
         InputBox, fileName, ,"Enter the name of the needle to save"
 
@@ -1727,7 +1731,9 @@ Screenshot_dev(fileType := "Dev", subDir := "", srcPath := "") {
         KeyWait, LButton, D
         MouseGetPos , X3, Y3, OutputVarWin, OutputVarControl
         KeyWait, LButton, U
-        Y3 -= 31 + yBias
+
+        X3 := X3 - PicPosX
+        Y3 := Y3 - PicPosY
 
         global rec_LastScreenGrab
         rec_LastScreenGrab := {fileName: fileName, needlePath: filePath
@@ -1759,6 +1765,7 @@ Screenshot_dev(fileType := "Dev", subDir := "", srcPath := "") {
     catch {
         msgbox Failed to create screenshot GUI
     }
+    CoordMode, Pixel, Screen
     return filePath
 }
 

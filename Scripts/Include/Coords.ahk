@@ -62,7 +62,7 @@ needlesDict.Add(new Needle("Friend_HamburgerMenuButtonInIntro", "MainHamburgerMe
 ; Friend - Search
 needlesDict.Add(new Needle("Friend_SearchFriendButton", "FriendSearchButton", new Coordinate(20, 435, 35, 450)))
 needlesDict.Add(new Needle("Friend_SearchFriendWindowCancelButtonCorner", "CloseAlertWindow", new Coordinate(6, 375, 41, 400)))
-needlesDict.Add(new Needle("Friend_FriendIDInputReady", "OK2", new Coordinate(0, 476, 25, 496)))
+needlesDict.Add(new Needle("Friend_FriendIDInputReady", "OK2", new Coordinate(0, 466, 35, 500)))
 needlesDict.Add(new Needle("Friend_InputFormBlank", "Erase", new Coordinate(15, 495, 68, 515)))
 needlesDict.Add(new Needle("Friend_RequestButtonInSearchResult", "Send", new Coordinate(170, 252, 184, 258)))
 needlesDict.Add(new Needle("Friend_WithdrawButton", "Withdraw", new Coordinate(169, 247, 249, 253)))
@@ -205,7 +205,7 @@ needlesDict.Add(new Needle("Create_DownloadComplete", "Complete", new Coordinate
 needlesDict.Add(new Needle("Create_CinematicBackground", "Cinematic", new Coordinate(0, 40, 7, 47)))
 needlesDict.Add(new Needle("Create_WelcomePopup", "Welcome", new Coordinate(72, 234, 125, 239)))
 needlesDict.Add(new Needle("Create_NameInputIcon", "Name", new Coordinate(190, 241, 209, 257)))
-needlesDict.Add(new Needle("Create_DeactivatedOKButton", "OK", new Coordinate(0, 473, 19, 484)))
+needlesDict.Add(new Needle("Create_DeactivatedOKButton", "OK", new Coordinate(0, 455, 30, 500)))
 needlesDict.Add(new Needle("Create_PackReturnButtonIcon", "Return", new Coordinate(127, 501, 147, 509)))
 needlesDict.Add(new Needle("Create_SwipeForRegisterDexIcon", "Swipe", new Coordinate(45, 100, 55, 107)))
 needlesDict.Add(new Needle("Create_ConfirmRegisteredCard", "SwipeUp", new Coordinate(126, 69, 146, 89)))
